@@ -1,0 +1,72 @@
+
+
+{% extends 'app/base.html' %}
+{% block body %}
+{% load static %}
+
+
+<section class=" bg-light d-flex  justify-content-center align-item-center h-100 min-vh-100">
+   
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="mb-4 p-2 text-dark cat">{{ category.name }}</h4>
+            </div>
+            <div class="row">
+              
+            {% for product in products %}
+            <div class="col-md-3">
+               
+                <div class="product-card">
+                    <a href="{% url 'app:product_detail' product.id %}">
+                    <div class="product-card-img">
+                        <label class="stock bg-success">In Stock</label>
+                        <img src="{{ product.photo.url }}" alt="Laptop">
+                    </div>
+                    <div class="product-card-body">
+                        <p class="product-brand"> {{ product.brand}} </p>
+                        <h5 class="product-name">
+                           <a href="">
+                            {{ product.name}} 
+                           </a>
+                        </h5>
+                        <p class="card-text">{{ product.smalldescription }}</p>
+                        <div>
+                            <span class="card-text text-dark "><i class="fa fa-inr" aria-hidden="true"></i>{{ product.price }}</span>
+                         
+                        </div>
+                    </a>
+                        <div class="mt-2">
+                            <a href="" class="btn btn1">Add To Cart</a>
+                           
+                            <a href="{% url 'app:product_detail' product.id %}" class="btn btn1"> View </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                  
+      {% endfor %}
+    </div>
+            
+           
+        </div>
+    </div>
+</div>
+
+</section>
+
+  
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

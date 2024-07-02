@@ -1,0 +1,50 @@
+
+{% extends 'app/base.html' %}
+{% block body %}
+   
+           
+
+<section class=" bg-light d-flex  justify-content-center align-item-center h-100 min-vh-100">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4 p-3 text cat ">Our Categories</h2>
+        </div>
+    <div class="row gy-2">
+        {% for category in categories %}
+        <div class="col-lg-3   col-md-4 ">
+           
+            <a  href="{% url 'app:product' category.id %}" style="text-decoration: none;">
+            <div class=" card box h-100 d-flex p-1 flex-colum text-dark ">
+                <div class="card-body">
+                <img src="{{ category.photo.url }}" class="img-fluid card-img-top rounded" alt="{{ category.name }}">
+                <h3 class="card-title">{{ category.name }}</h3>
+             </div>
+            </div>
+</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+    
+         
+ 
+    
+           
+{% endblock %}

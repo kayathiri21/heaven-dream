@@ -1,0 +1,17 @@
+{% extends 'app/base.html' %}
+{% block body %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Profile Page</h2>
+        {% if user.is_authenticated %}
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <!-- Add other profile information here -->
+                </div>
+            </div>
+        {% else %}
+            <p>Please <a href="{% url 'login' %}">login</a> to view your profile.</p>
+        {% endif %}
+    </div>
+{% endblock %}

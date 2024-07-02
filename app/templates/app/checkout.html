@@ -1,0 +1,137 @@
+{% extends 'app/base.html' %}
+{% block body %}
+
+<div class="py-3 py-md-4 checkout">
+    <div class="container">
+        <h4>Checkout</h4>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="shadow bg-white p-3" >
+                    <h4 class="text-primary">
+                        Item Total Amount :
+                        <span class="float-end"><i class="fa fa-inr" aria-hidden="true"></i>{{ total_amount }}</span> <!-- Adjust this to show the total amount -->
+                    </h4>
+                    <hr>
+                    <small>* Items will be delivered in 3 - 5 days.</small>
+                    <br/>
+                    <small>* Tax and other charges are included ?</small>
+                   
+
+                </div>     
+            </div>
+            <div class="col-md-12 align-self-center">
+                <div class="shadow bg-white p-3">
+                    <h4 class="text-primary">
+                        Basic Information
+                    </h4>
+                    <hr>
+
+                    <form action="{% url 'app:checkout' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-control"  placeholder="Enter Full Name" required>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control" placeholder="Enter Email Address" required>
+                        
+                        </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address1" class="form-label">Address Line 1</label>
+                            <input type="text" name="address1" class="form-control" placeholder="Enter Address Line 1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address2" class="form-label">Address Line 2</label>
+                            <input type="text" name="address2" class="form-control" placeholder="Enter Address Line 2">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" name="city" class="form-control" placeholder="Enter City" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="state" class="form-label">State</label>
+                                <input type="text" name="state" class="form-control" placeholder="Enter State" required>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="zip_code" class="form-label">Zip Code</label>
+                                <input type="text" name="zip_code" class="form-control" placeholder="Enter Zip Code" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Select Payment Mode:</label><br>
+                          
+                          
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="payment_method" id="cod" value="COD">
+                                <label class="form-check-label" for="cod">Cash on Delivery</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="payment_method" id="card" value="card">
+                                <label class="form-check-label" for="card">Credit/Debit Card</label>
+                            </div>
+                        </div>
+                        <button type="submit" id="payment-btn" class="btn btn-primary">Place Order</button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    function togglePaymentButton() {
+        var paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+        var paymentButton = document.getElementById('payment-btn');
+
+        if (paymentMethod === 'card') {
+            paymentButton.textContent = 'Pay with Razorpay';
+            paymentButton.onclick = function () {
+                var options = {
+                    key: "NuSQgBnmlJJ25h",
+                    amount: "{{ razorpay_amount }}",
+                    currency: "INR",
+                    name: "Your Store",
+                    description: "Order Payment",
+                    image: "",
+                    order_id: "{{ razorpay_order_id }}",
+                    handler: function (response) {
+                        console.log("Payment successful:", response);
+                        document.forms[0].submit(); // Submit the form after successful payment
+                    },
+                    prefill: {
+                        name: "",
+                        email: "",
+                        contact: ""
+                    },
+                    theme: {
+                        color: "#3399cc"
+                    }
+                };
+                var rzp = new Razorpay(options);
+                rzp.open();
+            };
+        } else {
+            paymentButton.textContent = 'Place Order';
+            paymentButton.onclick = function () {
+                document.forms[0].submit(); // Submit the form for COD
+            };
+        }
+    }
+
+    // Call the togglePaymentButton function on page load
+    window.onload = togglePaymentButton;
+</script>
+
+{% endblock %}

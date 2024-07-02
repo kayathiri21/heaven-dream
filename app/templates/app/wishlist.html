@@ -1,0 +1,33 @@
+{% extends 'app/base.html' %}
+{% block body %}
+{% load static %}
+
+<section class=" bg-light d-flex  justify-content-center align-item-center h-100 min-vh-100">
+<div class="container ">
+    <h2 class="text-dark ">My Wishlist</h2>
+    <div class="row">
+        {% for item in wishlist_items %}
+        <div class="col-lg-3 col-md-4 col-sm-12  m-4" style="width:300px">
+            <div class="card box h-100 d-flex p-2 flex-colum ">
+                
+                <img src="{{ item.product.photo.url }}" class="card-img-top " alt="{{ item.product.name }}" style="max-height: 300px; max-width:300px ">
+              
+                <div class="card-body product-card-body">
+                    <p class="product-brand"> {{ item.product.brand}} </p>
+                    <h5 class="card-title product-name">{{ item.product.name }}</h5>
+                    <p class="card-text">{{ item.product.smalldescription }}</p>
+                    <div>
+                        <span class="card-text text-dark"><i class="fa fa-inr" aria-hidden="true"></i>{{ item.product.price }}</span>
+                     
+                    </div>
+                    <!-- Add more product details as needed -->
+                    <a href="{% url 'app:product_detail' item.product.id %}" class="btn m-3 btn-primary">View Product</a>
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div> 
+</section>
+{% endblock %}

@@ -1,0 +1,65 @@
+
+{% extends 'app/base.html' %}
+{% block body %}
+
+
+
+
+ <section class="bg-light py-4 my-5" >
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mb-3">Cart Items</h4>
+                <hr style="border-color:#b8bfc2;">
+            </div>
+        </div>
+        
+       
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th> Amount</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td><img src="{{ item.product.photo.url }}" height="75px" alt="{{ item.product.name }}"></td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.price }}</td>
+                    <td>
+                        
+                               
+                                
+                                <input type="number" name="quantity" class="form-control input-number" value="{{ item.quantity }}" min="1" max="{{ item.product.quantity }}" width="10">
+                               
+                               
+                    </td>
+                   
+                   <td>{{ item.subtotal }}</td>
+                   <td> <a  href="{% url 'app:remove_cart' item.id %}"  class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Remove</a></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2"><b>Total Amount</b></td>
+                    <td>{{ total_amount }}</td>
+                 
+                    <td><a href="{% url 'app:checkout' %}" class="btn btn-primary btn-sm"><i class="fa fa-check-circle"></i> Check Out</a></td>
+                </tr>
+            </tbody>
+        </table>
+       
+        <a href="">Continue Shopping</a>
+    </div>
+</section> 
+
+
+
+{% endblock %} 
